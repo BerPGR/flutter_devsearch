@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/user_model.dart';
-import '../models/repository_model.dart';
+import '../features/models/user_model.dart';
+import '../features/models/repository_model.dart';
 
 class GithubService {
   final String baseUrl = 'https://api.github.com';
