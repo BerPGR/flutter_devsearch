@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:search_devs/features/profile/profile_bloc.dart';
-import 'package:search_devs/features/models/repository_model.dart';
-import 'package:search_devs/features/models/user_model.dart';
+import 'package:search_devs/features/profile/repository_model.dart';
+import 'package:search_devs/features/home/user_model.dart';
 import 'package:search_devs/features/profile/widgets/profile_user_info_mobile.dart';
 import 'package:search_devs/services/github_service.dart';
 import 'package:search_devs/utils/date_parser.dart';
@@ -28,61 +28,63 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      child: BlocProvider(
-        create: (_) =>
-            ProfileBloc(GithubService())..loadProfile(widget.user.username),
-        child: Scaffold(
-          body: LayoutBuilder(
-            builder: (context, constraints) {
-              bool isMobile = constraints.maxWidth < 600;
-
-              return BlocBuilder<ProfileBloc, ProfileState>(
-                builder: (context, state) {
-                  if (state is ProfileLoading) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (state is ProfileError) {
-                    return Center(child: Text(state.message));
-                  } else if (state is ProfileLoaded) {
-                    if (isMobile) {
-                      List<RepositoryModel> sortedRepositories =
-                          _sortRepositories(state.repositories);
-
-                      return SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ProfileUserInfoMobile(user: widget.user),
-                            _buildSortDropdown(),
-                            _buildRepositoryList(sortedRepositories)
-                          ],
-                        ),
-                      );
-                    } else {
-                      return Row(
+    return BlocProvider(
+      create: (_) =>
+          ProfileBloc(GithubService())..loadProfile(widget.user.username),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Perfil de ${widget.user.username}'),
+          centerTitle: true,
+          backgroundColor: Color(0xFFf2ebff),
+        ),
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            bool isMobile = constraints.maxWidth < 600;
+    
+            return BlocBuilder<ProfileBloc, ProfileState>(
+              builder: (context, state) {
+                if (state is ProfileLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is ProfileError) {
+                  return Center(child: Text(state.message));
+                } else if (state is ProfileLoaded) {
+                  if (isMobile) {
+                    List<RepositoryModel> sortedRepositories =
+                        _sortRepositories(state.repositories);
+    
+                    return SingleChildScrollView(
+                      scrollDirection: Axis.vertical,
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (!isMobile)
-                            Expanded(
-                              flex: 2,
-                              child: _buildProfileSection(widget.user),
-                            ),
-                          if (!isMobile) const SizedBox(width: 20),
-                          Expanded(
-                            flex: isMobile ? 1 : 3,
-                            child: _buildRepositoryList(state.repositories),
-                          ),
+                          ProfileUserInfoMobile(user: widget.user),
+                          _buildSortDropdown(),
+                          _buildRepositoryList(sortedRepositories)
                         ],
-                      );
-                    }
+                      ),
+                    );
+                  } else {
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (!isMobile)
+                          Expanded(
+                            flex: 2,
+                            child: _buildProfileSection(widget.user),
+                          ),
+                        if (!isMobile) const SizedBox(width: 20),
+                        Expanded(
+                          flex: isMobile ? 1 : 3,
+                          child: _buildRepositoryList(state.repositories),
+                        ),
+                      ],
+                    );
                   }
-                  return const SizedBox.shrink();
-                },
-              );
-            },
-          ),
+                }
+                return const SizedBox.shrink();
+              },
+            );
+          },
         ),
       ),
     );
@@ -141,6 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
         onChanged: (value) {
           setState(() {
             _sortCriteria = value!;
+            currentPage = 1;
           });
         },
         items: const [
@@ -182,12 +185,12 @@ class _ProfilePageState extends State<ProfilePage> {
             child: GestureDetector(
               onTap: () {
                 _webViewController = WebViewController()
-                ..loadRequest(Uri.parse(repo.htmlUrl));
+                  ..loadRequest(Uri.parse(repo.htmlUrl));
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => Scaffold(
-                      appBar: AppBar(title: Text('WebView')),
+                      appBar: AppBar(title: Text(repo.name)),
                       body: WebViewWidget(
                         controller: _webViewController,
                       ),
@@ -196,6 +199,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 );
               },
               child: Container(
+                color: Colors.transparent,
+                width: double.infinity,
                 child: Column(
                   spacing: 16,
                   crossAxisAlignment: CrossAxisAlignment.start,

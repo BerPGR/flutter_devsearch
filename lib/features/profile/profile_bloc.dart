@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:search_devs/features/models/repository_model.dart';
+import 'package:search_devs/features/profile/repository_model.dart';
 import 'package:search_devs/services/github_service.dart';
 
 class ProfileBloc extends Cubit<ProfileState> {

@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:search_devs/features/models/user_model.dart';
+import 'package:search_devs/features/home/user_model.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 class ProfileUserInfoMobile extends StatelessWidget {
   final UserModel user;
@@ -112,10 +113,21 @@ class ProfileUserInfoMobile extends StatelessWidget {
                 spacing: 8,
                 children: [
                   SvgPicture.asset("assets/svgs/link.svg"),
-                  if (user.blog!.isEmpty)
-                    Text("No Blog", style: TextStyle(fontSize: 14))
+                                    if (user.blog == null || user.blog!.isEmpty)
+                    Text("No blog", style: TextStyle(fontSize: 14))
                   else
-                    Text(user.blog!, style: TextStyle(fontSize: 14))
+                    GestureDetector(
+                      onTap: () {
+                        Modular.to.push(
+                          MaterialPageRoute(
+                            builder: (context) => WebViewWidget(
+                              controller: WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted)..loadRequest(Uri.parse("${user.blog}")),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(user.blog!, style: TextStyle(fontSize: 14)),
+                    )
                 ],
               ),
               Row(
@@ -123,8 +135,21 @@ class ProfileUserInfoMobile extends StatelessWidget {
                 spacing: 8,
                 children: [
                   SvgPicture.asset("assets/svgs/twitter.svg"),
-                  Text(user.twitterUsername ?? "No twitter",
-                      style: TextStyle(fontSize: 14))
+                  if (user.twitterUsername == null || user.twitterUsername!.isEmpty)
+                    Text("No twitter", style: TextStyle(fontSize: 14))
+                  else
+                    GestureDetector(
+                      onTap: () {
+                        Modular.to.push(
+                          MaterialPageRoute(
+                            builder: (context) => WebViewWidget(
+                              controller: WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted)..loadRequest(Uri.parse("https://twitter.com/${user.twitterUsername}")),
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text(user.twitterUsername!, style: TextStyle(fontSize: 14)),
+                    )
                 ],
               ),
             ],

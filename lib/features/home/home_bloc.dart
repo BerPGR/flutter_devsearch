@@ -1,5 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:search_devs/features/models/user_model.dart';
+import 'package:search_devs/features/home/user_model.dart';
 import 'package:search_devs/services/github_service.dart';
 import 'package:search_devs/services/storage_service.dart';
 

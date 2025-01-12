@@ -12,7 +12,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _controller.text = "";
     return BlocProvider(
       create: (_) => HomeBloc(GithubService(), _storageService),
       child: Scaffold(
@@ -27,7 +26,6 @@ class HomePage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  // Header
                   RichText(
                     textAlign: TextAlign.center,
                     text: TextSpan(
@@ -48,8 +46,6 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 20),
-
-                  // Search Field
                   BlocBuilder<HomeBloc, HomeState>(
                     builder: (context, state) {
                       if (state is HomeLoading) {
@@ -66,12 +62,8 @@ class HomePage extends StatelessWidget {
                       }
 
                       if (state is HomeLoaded) {
-                        Modular.to
-                            .pushNamed('/profile', arguments: state.user)
-                            .then((_) {
-                          _controller.clear();
-                          BlocProvider.of<HomeBloc>(context).clearSearch();
-                        });
+                        _controller.clear();
+                        Modular.to.navigate('/profile', arguments: state.user);
                       }
 
                       return Column(
@@ -80,20 +72,59 @@ class HomePage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Expanded(
-                                child: TextField(
-                                  focusNode: _focusNode,
-                                  controller: _controller,
-                                  decoration: InputDecoration(
-                                    labelText: 'Search',
-                                    prefixIcon: const Icon(Icons.search),
-                                    border: const OutlineInputBorder(),
-                                  ),
-                                  onSubmitted: (value) {
-                                    if (value.trim().isNotEmpty) {
-                                      BlocProvider.of<HomeBloc>(context)
-                                          .searchUser(value.trim());
-                                      BlocProvider.of<HomeBloc>(context).clearSearch();
+                                child: FutureBuilder<List<String>>(
+                                  future: _storageService.getSearchHistory(),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return CircularProgressIndicator();
                                     }
+
+                                    final searchHistory = snapshot.data ?? [];
+
+                                    return Autocomplete<String>(
+                                      optionsBuilder:
+                                          (TextEditingValue textEditingValue) {
+                                        // Filtra as opções com base no texto inserido
+                                        return searchHistory.where((option) =>
+                                            option.toLowerCase().contains(
+                                                textEditingValue.text
+                                                    .toLowerCase()));
+                                      },
+                                      onSelected: (String selectedOption) {
+                                        _controller.text = selectedOption;
+                                        BlocProvider.of<HomeBloc>(context)
+                                            .searchUser(selectedOption);
+                                        BlocProvider.of<HomeBloc>(context)
+                                            .clearSearch();
+                                        // Adiciona o nome selecionado ao histórico
+                                        _storageService
+                                            .addSearchHistory(selectedOption);
+                                      },
+                                      fieldViewBuilder: (context, controller,
+                                          focusNode, onFieldSubmitted) {
+                                        return TextField(
+                                          focusNode: focusNode,
+                                          controller: controller,
+                                          decoration: InputDecoration(
+                                            labelText: 'Search',
+                                            prefixIcon:
+                                                const Icon(Icons.search),
+                                            border: const OutlineInputBorder(),
+                                          ),
+                                          onSubmitted: (value) {
+                                            if (value.trim().isNotEmpty) {
+                                              BlocProvider.of<HomeBloc>(context)
+                                                  .searchUser(value.trim());
+                                              BlocProvider.of<HomeBloc>(context)
+                                                  .clearSearch();
+                                              // Adiciona o nome ao histórico
+                                              _storageService.addSearchHistory(
+                                                  value.trim());
+                                            }
+                                          },
+                                        );
+                                      },
+                                    );
                                   },
                                 ),
                               ),
@@ -114,6 +145,8 @@ class HomePage extends StatelessWidget {
                                         BlocProvider.of<HomeBloc>(context)
                                             .searchUser(
                                                 _controller.text.trim());
+                                        StorageService().addSearchHistory(
+                                            _controller.text.trim());
                                       }
                                     },
                                     child: const Text(
@@ -140,8 +173,9 @@ class HomePage extends StatelessWidget {
                                   onPressed: () {
                                     if (_controller.text.trim().isNotEmpty) {
                                       BlocProvider.of<HomeBloc>(context)
-                                          .searchUser(
-                                              _controller.text.trim());
+                                          .searchUser(_controller.text.trim());
+                                      StorageService().addSearchHistory(
+                                          _controller.text.trim());
                                     }
                                   },
                                   child: const Text(
