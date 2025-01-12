@@ -84,7 +84,7 @@ class HomePage extends StatelessWidget {
                                     return Autocomplete<String>(
                                       optionsBuilder:
                                           (TextEditingValue textEditingValue) {
-                                        // Filtra as opções com base no texto inserido
+                                        
                                         return searchHistory.where((option) =>
                                             option.toLowerCase().contains(
                                                 textEditingValue.text
@@ -96,7 +96,7 @@ class HomePage extends StatelessWidget {
                                             .searchUser(selectedOption);
                                         BlocProvider.of<HomeBloc>(context)
                                             .clearSearch();
-                                        // Adiciona o nome selecionado ao histórico
+                                        
                                         _storageService
                                             .addSearchHistory(selectedOption);
                                       },
@@ -117,7 +117,7 @@ class HomePage extends StatelessWidget {
                                                   .searchUser(value.trim());
                                               BlocProvider.of<HomeBloc>(context)
                                                   .clearSearch();
-                                              // Adiciona o nome ao histórico
+                                              
                                               _storageService.addSearchHistory(
                                                   value.trim());
                                             }
@@ -145,7 +145,7 @@ class HomePage extends StatelessWidget {
                                         BlocProvider.of<HomeBloc>(context)
                                             .searchUser(
                                                 _controller.text.trim());
-                                        StorageService().addSearchHistory(
+                                        _storageService.addSearchHistory(
                                             _controller.text.trim());
                                       }
                                     },
@@ -174,7 +174,7 @@ class HomePage extends StatelessWidget {
                                     if (_controller.text.trim().isNotEmpty) {
                                       BlocProvider.of<HomeBloc>(context)
                                           .searchUser(_controller.text.trim());
-                                      StorageService().addSearchHistory(
+                                      _storageService.addSearchHistory(
                                           _controller.text.trim());
                                     }
                                   },

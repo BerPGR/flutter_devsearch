@@ -7,7 +7,7 @@ class SaveRouteMiddleware extends RouteGuard {
   @override
   Future<bool> canActivate(String path, ModularRoute route) async {
     final prefs = await SharedPreferences.getInstance();
-    // Salva a rota e os argumentos no local storage
+    
     await prefs.setString('last_route', route.uri.toString());
     if (route.args != null) {
       await prefs.setString('last_args', route.args?.toJson().toString() ?? '');
