@@ -3,6 +3,7 @@ class RepositoryModel {
   final String? description;
   final int stars;
   final DateTime updatedAt;
+  final DateTime createdAt;
   final String htmlUrl;
 
   RepositoryModel({
@@ -10,6 +11,7 @@ class RepositoryModel {
     this.description,
     required this.stars,
     required this.updatedAt,
+    required this.createdAt,
     required this.htmlUrl,
   });
 
@@ -19,6 +21,7 @@ class RepositoryModel {
       description: json['description'],
       stars: json['stargazers_count'],
       updatedAt: DateTime.parse(json['updated_at']),
+      createdAt: DateTime.parse(json['created_at']),
       htmlUrl: json['html_url'],
     );
   }

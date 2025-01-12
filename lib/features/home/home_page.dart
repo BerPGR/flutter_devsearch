@@ -12,6 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _controller.text = "";
     return BlocProvider(
       create: (_) => HomeBloc(GithubService(), _storageService),
       child: Scaffold(
@@ -91,6 +92,7 @@ class HomePage extends StatelessWidget {
                                     if (value.trim().isNotEmpty) {
                                       BlocProvider.of<HomeBloc>(context)
                                           .searchUser(value.trim());
+                                      BlocProvider.of<HomeBloc>(context).clearSearch();
                                     }
                                   },
                                 ),

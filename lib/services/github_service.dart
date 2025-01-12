@@ -15,9 +15,9 @@ class GithubService {
     }
   }
 
-  Future<List<RepositoryModel>> fetchRepositories(String username, {String sort = 'updated', int page = 1}) async {
+  Future<List<RepositoryModel>> fetchRepositories(String username, {String sort = 'updated'}) async {
     final response = await http.get(
-      Uri.parse('$baseUrl/users/$username/repos?sort=$sort&page=$page&per_page=10'),
+      Uri.parse('$baseUrl/users/$username/repos?sort=$sort'),
     );
     if (response.statusCode == 200) {
       final List data = jsonDecode(response.body);
