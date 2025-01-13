@@ -136,7 +136,7 @@ Contém utilitários ou funções auxiliares reutilizáveis.
 ---
 
 ## 📝 **Instalar o APK**
-<a href="https://github.com/BerPGR/teste_petize_flutter/tree/master/build/app/outputs/flutter-apk/app-release.apk" download>
+<a href="https://github.com/BerPGR/teste_petize_flutter/tree/master/generated/app-release.apk" download>
     <img src="https://img.shields.io/badge/Baixar%20APK-Download-blue?style=for-the-badge" alt="Baixar APK">
 </a>
 

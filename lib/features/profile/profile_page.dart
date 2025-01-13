@@ -40,7 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
         body: LayoutBuilder(
           builder: (context, constraints) {
             bool isMobile = constraints.maxWidth < 600;
-    
+
             return BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, state) {
                 if (state is ProfileLoading) {
@@ -51,13 +51,57 @@ class _ProfilePageState extends State<ProfilePage> {
                   if (isMobile) {
                     List<RepositoryModel> sortedRepositories =
                         _sortRepositories(state.repositories);
-    
+
                     return SingleChildScrollView(
                       scrollDirection: Axis.vertical,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ProfileUserInfoMobile(user: widget.user),
+                          if (widget.user.blog != null ||
+                              widget.user.blog!.isNotEmpty)
+                            TextButton(
+                              onPressed: () {
+                                _webViewController = WebViewController()
+                                  ..setJavaScriptMode(
+                                      JavaScriptMode.unrestricted)
+                                  ..loadRequest(Uri.parse(widget.user.blog!));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Scaffold(
+                                      appBar: AppBar(),
+                                      body: WebViewWidget(
+                                        controller: _webViewController,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Text('Acessar Blog'),
+                            ),
+                          if (widget.user.blog != null ||
+                              widget.user.blog!.isNotEmpty)
+                            TextButton(
+                              onPressed: () {
+                                _webViewController = WebViewController()
+                                  ..setJavaScriptMode(
+                                      JavaScriptMode.unrestricted)
+                                  ..loadRequest(Uri.parse("https://twitter.com/${widget.user.twitterUsername}"));
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Scaffold(
+                                      appBar: AppBar(),
+                                      body: WebViewWidget(
+                                        controller: _webViewController,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: const Text('Acessar Twitter'),
+                            ),
                           _buildSortDropdown(),
                           _buildRepositoryList(sortedRepositories)
                         ],

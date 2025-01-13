@@ -113,21 +113,10 @@ class ProfileUserInfoMobile extends StatelessWidget {
                 spacing: 8,
                 children: [
                   SvgPicture.asset("assets/svgs/link.svg"),
-                                    if (user.blog == null || user.blog!.isEmpty)
+                  if (user.blog == null || user.blog!.isEmpty)
                     Text("No blog", style: TextStyle(fontSize: 14))
                   else
-                    GestureDetector(
-                      onTap: () {
-                        Modular.to.push(
-                          MaterialPageRoute(
-                            builder: (context) => WebViewWidget(
-                              controller: WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted)..loadRequest(Uri.parse("${user.blog}")),
-                            ),
-                          ),
-                        );
-                      },
-                      child: Text(user.blog!, style: TextStyle(fontSize: 14)),
-                    )
+                    Text(user.blog!, style: TextStyle(fontSize: 14))
                 ],
               ),
               Row(
@@ -135,21 +124,11 @@ class ProfileUserInfoMobile extends StatelessWidget {
                 spacing: 8,
                 children: [
                   SvgPicture.asset("assets/svgs/twitter.svg"),
-                  if (user.twitterUsername == null || user.twitterUsername!.isEmpty)
+                  if (user.twitterUsername == null ||
+                      user.twitterUsername!.isEmpty)
                     Text("No twitter", style: TextStyle(fontSize: 14))
                   else
-                    GestureDetector(
-                      onTap: () {
-                        Modular.to.push(
-                          MaterialPageRoute(
-                            builder: (context) => WebViewWidget(
-                              controller: WebViewController()..setJavaScriptMode(JavaScriptMode.unrestricted)..loadRequest(Uri.parse("https://twitter.com/${user.twitterUsername}")),
-                            ),
-                          ),
-                        );
-                      },
-                      child: Text(user.twitterUsername!, style: TextStyle(fontSize: 14)),
-                    )
+                    Text(user.twitterUsername!, style: TextStyle(fontSize: 14))
                 ],
               ),
             ],
