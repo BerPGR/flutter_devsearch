@@ -80,8 +80,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                               child: const Text('Acessar Blog'),
                             ),
-                          if (widget.user.blog != null ||
-                              widget.user.blog!.isNotEmpty)
+                          if (widget.user.twitterUsername != null ||
+                              widget.user.twitterUsername!.isNotEmpty)
                             TextButton(
                               onPressed: () {
                                 _webViewController = WebViewController()
