@@ -4,20 +4,20 @@ import 'package:search_devs/features/profile/profile_page.dart';
 import 'package:search_devs/middleware/route_middleware.dart';
 
 class AppModule extends Module {
-  @override
-  final List<Bind> binds = [];
+  final String initialRoute;
+  final String? initialArgs;
 
-@override
-List<ModularRoute> get routes => [
-  ChildRoute(
-    '/',
-    child: (_, __) => HomePage(),
-    guards: [SaveRouteMiddleware()],
-  ),
-  ChildRoute(
-    '/profile',
-    child: (_, args) => ProfilePage(user: args.data),
-    guards: [SaveRouteMiddleware()],
-  ),
-];
+  AppModule({required this.initialRoute, this.initialArgs});
+
+  @override
+  List<ModularRoute> get routes => [
+        ChildRoute(
+          '/',
+          child: (_, __) => HomePage(),
+        ),
+        ChildRoute(
+          '/profile',
+          child: (_, args) => ProfilePage(user: args.data ?? initialArgs),
+        ),
+      ];
 }

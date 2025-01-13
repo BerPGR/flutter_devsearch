@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
           user.username,
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        Text(user.bio ?? 'No bio available'),
+        Text(user.bio ?? 'Sem biografia'),
         const SizedBox(height: 20),
         if (user.blog != null)
           ElevatedButton(

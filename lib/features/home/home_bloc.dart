@@ -22,7 +22,7 @@ class HomeBloc extends Cubit<HomeState> {
 
       emit(HomeLoaded(user));
     } catch (e) {
-      emit(HomeError('User not found.'));
+      emit(HomeError('Usuário não encontrado.'));
     }
   }
 

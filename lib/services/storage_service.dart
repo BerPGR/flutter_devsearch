@@ -17,7 +17,7 @@ class StorageService {
   Future<void> addSearchHistory(String username) async {
     final currentHistory = await getSearchHistory();
 
-    if (currentHistory.contains(username.toLowerCase())) {
+    if (!currentHistory.contains(username.toLowerCase())) {
       currentHistory.insert(0, username);
 
       await saveSearchHistory(currentHistory.take(5).toList());

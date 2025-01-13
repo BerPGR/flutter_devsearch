@@ -53,12 +53,15 @@ class HomePage extends StatelessWidget {
                       }
 
                       if (state is HomeError) {
-                        return Text(
-                          state.message,
-                          style: const TextStyle(color: Colors.red),
-                          textAlign:
-                              isMobile ? TextAlign.center : TextAlign.left,
-                        );
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(state.message),
+                            ),
+                          );
+
+                          BlocProvider.of<HomeBloc>(context).clearSearch();
+                        });
                       }
 
                       if (state is HomeLoaded) {
@@ -120,6 +123,14 @@ class HomePage extends StatelessWidget {
                                               
                                               _storageService.addSearchHistory(
                                                   value.trim());
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'Erro ao buscar usuário'),
+                                                ),
+                                              );
                                             }
                                           },
                                         );
