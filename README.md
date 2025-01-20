@@ -1,9 +1,3 @@
-# Desafio para Vaga de Desenvolvimento Flutter Júnior
-
-Este projeto foi desenvolvido como parte do desafio técnico para a vaga de Desenvolvimento Flutter Júnior. A aplicação permite buscar perfis de desenvolvedores na API pública do GitHub e exibir seus dados em uma página de perfil.
-
----
-
 ## 🎯 **Objetivo do Projeto**
 Construir uma aplicação Flutter que permita:
 - Pesquisar usuários pelo username do GitHub.
@@ -90,48 +84,17 @@ Contém utilitários ou funções auxiliares reutilizáveis.
 - **`app_module.dart`**: Define os módulos principais e a configuração da aplicação.
 - **`app_widget.dart`**: Contém o widget principal da aplicação.
 - **`main.dart`**: Ponto de entrada do aplicativo.
-
-
-## 🖌️ **Design**
-- **Figma**: Utilizado como base para as telas. O componente de troca de parâmetros foi criado manualmente, seguindo o estilo das páginas do protótipo.
-- **Responsividade**: Implementada com `MediaQuery` e widgets como `Row`, `Column`, `Expanded` e `Flexible`.
 ---
 
 
 ## 🔧 **Tecnologias Utilizadas**
-- **Flutter Modular (v5.0.3)**: Gerenciamento de dependências e navegação.
-- **Bloc**: Gerenciador de estados.
-- **HTTP**: Consumo da API do GitHub.
-- **WebView**: Para abrir links externos.
-- **Shared Preferences**: Salva as últimas 5 pesquisas de usuários.
-- **SVG**: Carrega imagens em formato SVG.
+- **flutter_modular**: Gerenciamento de dependências e navegação.
+- **flutter_bloc**: Gerenciador de estados.
+- **http**: Consumo da API do GitHub.
+- **webview_flutre**: Para abrir links externos.
+- **shared_preferences**: Salva as últimas 5 pesquisas de usuários.
+- **flutter_svg**: Carrega imagens em formato SVG.
 
----
-
-## 🚀 **Requisitos Técnicos Atendidos**
-- Aplicação responsiva para desktop e mobile. ❌
-- Duas rotas nomeadas: ✅
-  - **Home**: Página de busca.✅
-  - **Profile**: Página do perfil do usuário pesquisado.✅
-- Implementação de testes unitários:❌
-  - Listagem de usuários.❌
-  - Listagem de repositórios.❌
-- Versão de Release disponibilizada no formato APK.✅
-- Repositório GitHub privado, com o usuário `Greismorr` como colaborador.✅
-
----
-
-## 🌟 **Diferenciais Implementados**
-- **Qualidade do Código** ✅
-- **Estratégia de Commits** ✅
-
----
-
-## 🔗 **Links Úteis**
-- [Documentação Flutter Modular](https://modular.flutterando.com.br/docs/intro/)
-- [Documentação GitHub API](https://docs.github.com/pt/rest/quickstart?apiVersion=2022-11-28)
-- [Documento Teste Dev Flutter](https://docs.google.com/document/d/15IdTi7WWio9NXcI8zI98aVjzd2KULOHDT8yroHCnx54/edit?tab=t.0)
-- [Protótipo do Figma](https://www.figma.com/design/dcy0QM6siQVA8qaLzDcLXD/Teste-Petize-(2025)?node-id=0-1&p=f&t=1OtKOUbHJd9dNEGH-0) 
 
 ---
 

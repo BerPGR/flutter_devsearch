@@ -3,10 +3,6 @@ import 'package:search_devs/features/home/home_page.dart';
 import 'package:search_devs/features/profile/profile_page.dart';
 
 class AppModule extends Module {
-  final String initialRoute;
-  final String? initialArgs;
-
-  AppModule({required this.initialRoute, this.initialArgs});
 
   @override
   List<ModularRoute> get routes => [
@@ -16,7 +12,7 @@ class AppModule extends Module {
         ),
         ChildRoute(
           '/profile',
-          child: (_, args) => ProfilePage(user: args.data ?? initialArgs),
+          child: (_, args) => ProfilePage(user: args.data),
         ),
       ];
 }
