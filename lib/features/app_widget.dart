@@ -13,12 +13,13 @@ class AppWidget extends StatelessWidget {
         providers: [
           BlocProvider<HomeBloc>(
               create: (context) => HomeBloc(GithubService(), StorageService())),
-          BlocProvider(create: (context) => ProfileBloc(GithubService())),
+          BlocProvider<ProfileBloc>(create: (context) => ProfileBloc(GithubService())),
         ],
         child: MaterialApp.router(
           title: 'Petize Search D_evs',
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
+            scaffoldBackgroundColor: Color(0xFFFCFCFC),
             primarySwatch: Colors.blue,
           ),
           routeInformationParser: Modular.routeInformationParser,
